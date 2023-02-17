@@ -1,6 +1,6 @@
 
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { Login } from '../pages/Loginpage'
+import LoginPage from '../pages/Loginpage'
 import { Register } from '../pages/RegisterPage'
 
 
@@ -15,7 +15,7 @@ export const RoutesApp = () =>
           </Route>
   
           */}
-                  <Route path="/login" element={ <Login/> } />
+                  <Route path="/login" element={ <LoginPage/> } />
                   <Route path="/register" element={ <Register/> } /> 
     
    </Routes >

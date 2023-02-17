@@ -80,7 +80,7 @@ export const Register = () => {
                   _hover={{ bg: 'primaryHover' }}
                 >
                   Cadastrar
-                </Button>            
+                </Button>
               </VStack>
             </Box>
           </motion.div>
