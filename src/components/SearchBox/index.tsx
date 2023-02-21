@@ -37,8 +37,7 @@ const SearchBox = () => {
         <FaSearch fontSize='1.1rem' color={theme.colors.gray100} />
       </Button>
       <Button
-        width='100%'
-        maxW='288px'
+        width={['100%', '100%', '288px', '288px']}
         h='60px'
         color='gray100'
         bgColor='secondary'
