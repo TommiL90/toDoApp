@@ -10,7 +10,6 @@ import {
 import {
   useState,
   useEffect,
-  useRef,
   useCallback,
   ForwardRefRenderFunction,
   forwardRef,
@@ -33,7 +32,7 @@ type tVaration = {
 
 const inputVariation: tVaration = {
   error: 'error',
-  default: 'gray200',
+  default: 'gray300',
   focus: 'primary',
   filled: 'sucess',
 };
@@ -67,7 +66,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, iInput> = (
 
   return (
     <FormControl isInvalid={!!error}>
-      {label && <FormLabel>{label}</FormLabel>}
+      {label && <FormLabel color='gray300' fontSize='t2' fontWeight='400'>{label}</FormLabel>}
       <InputGroup flexDirection='column'>
         {Icon && (
           <InputLeftElement mt='2.5' color={inputVariation[variation]}>

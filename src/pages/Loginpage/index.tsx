@@ -7,6 +7,8 @@ import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { StyledInput } from '../../components/Input';
 import { signInSchema } from './schema';
 import logoPrimary from '../../assets/logoPrimary.svg';
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
 
 interface iFormLogin {
   email: string;
@@ -14,6 +16,8 @@ interface iFormLogin {
 }
 
 const LoginPage = () => {
+  const { loading, loginUser } = useContext(AuthContext);
+
   const {
     register,
     handleSubmit,
@@ -24,15 +28,14 @@ const LoginPage = () => {
   });
 
   const submit: SubmitHandler<iFormLogin> = (data) => {
-    console.log(data);
+    loginUser(data);
     reset();
   };
 
   return (
     <Flex
       w='100%'
-      minHeight='100vh'
-      maxHeight='max-content'
+      h={['auto', 'auto', '100vh', '100vh']}
       bgGradient={[
         'linear(to-b, primary 50%, gray100 50%)',
         'linear(to-b, primary 50%, gray100 50%)',
@@ -88,27 +91,33 @@ const LoginPage = () => {
               borderRadius='8px'
               bg='gray100'
             >
-              <Heading as='h2' mb='1rem'>
+              <Heading as='h1' fontSize='h1' mb='1rem'>
                 Bem vindo de volta!
               </Heading>
               <VStack spacing='4'>
-                  <Box w='100%' >
+                <Box w='100%'>
                   <StyledInput
-                  icon={FaEnvelope}
-                  placeholder='Digite seu Email'
-                  {...register('email')}
-                  error={errors.email}
-                />
-                {!errors.email && <Text ml='1' mt='1' fontSize='t3' color='gray300'>Exemplo: nome@mail.com</Text>}
-                  </Box>
+                    label='Email'
+                    icon={FaEnvelope}
+                    placeholder='Digite seu Email'
+                    {...register('email')}
+                    error={errors.email}
+                  />
+                  {!errors.email && (
+                    <Text ml='1' mt='1' fontSize='t3' color='gray300'>
+                      Exemplo: nome@mail.com
+                    </Text>
+                  )}
+                </Box>
                 <StyledInput
+                  label='Senha'
                   icon={FaLock}
                   placeholder='Digite sua senha'
                   {...register('password')}
                   error={errors.password}
                 />
                 <Button
-                  isLoading={true}
+                  isLoading={loading}
                   type='submit'
                   w='100%'
                   color='gray200'
