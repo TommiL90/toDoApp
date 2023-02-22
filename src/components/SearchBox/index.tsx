@@ -1,8 +1,12 @@
-import { Button, Input, Wrap } from '@chakra-ui/react';
+import { Button, Input, useDisclosure, Wrap } from '@chakra-ui/react';
 import { FaSearch } from 'react-icons/fa';
 import { theme } from '../../styles/theme';
+import ModalCreateTask from '../Modal/ModalCreateTask';
 
 const SearchBox = () => {
+
+  const { isOpen, onClose, onOpen } = useDisclosure()
+
   return (
     <Wrap
       as='form'
@@ -24,6 +28,7 @@ const SearchBox = () => {
         _focus={{
           borderColor: 'primary',
         }}
+        placeholder='Pesquisar por Tarefa ...'
       />
       <Button
         width='15%'
@@ -44,9 +49,15 @@ const SearchBox = () => {
         _hover={{
           bgColor: theme.colors.secondaryHover,
         }}
+        onClick={onOpen}
       >
         Adicionar nova tarefa
       </Button>
+      <ModalCreateTask
+        isOpen={isOpen}
+        onClose={onClose
+        }
+      />
     </Wrap>
   );
 };
