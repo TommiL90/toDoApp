@@ -6,7 +6,7 @@ import { iChildrenProps, iDataLogin, iAuthContext } from './types';
 export const AuthContext = createContext({} as iAuthContext);
 
 export const AuthProvider = ({ children }: iChildrenProps) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({} as any);
 
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }: iChildrenProps) => {
       setUser(response.data.user);
       localStorage.setItem('@to-do:Token', token);
       localStorage.setItem('@to-do:Id', userId);
-      navigate('/home')
+      navigate('/home');
     } catch (error) {
       console.log(error);
     } finally {

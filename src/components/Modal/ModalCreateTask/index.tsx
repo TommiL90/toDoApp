@@ -37,7 +37,6 @@ const ModalCreateTask = ({ isOpen, onClose }: iModalCreateTaskProps) => {
     resolver: yupResolver(newTaskSchema),
   });
 
-
   const submit: SubmitHandler<iNewTask> = (data) => {
     console.log(data);
     reset();
@@ -65,11 +64,7 @@ const ModalCreateTask = ({ isOpen, onClose }: iModalCreateTaskProps) => {
               opacity: 0.8,
             }}
           />
-          <ModalBody 
-          as='form'
-          pb={6}
-          onSubmit={handleSubmit(submit)} 
-           >
+          <ModalBody as='form' pb={6} onSubmit={handleSubmit(submit)}>
             <VStack spacing='4'>
               <StyledInput
                 label='Título'

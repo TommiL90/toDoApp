@@ -25,14 +25,14 @@ export const theme = extendTheme({
     h4: '1.25rem',
     t1: '1rem',
     t2: '0.875rem',
-    t3: '0.75rem'
+    t3: '0.75rem',
   },
   styles: {
-    global:{
-      body:{
+    global: {
+      body: {
         bg: 'gray100',
-        color: 'gray800'
-      }
-    }
-  }
+        color: 'gray800',
+      },
+    },
+  },
 });

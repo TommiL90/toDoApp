@@ -30,8 +30,8 @@ const SingUpPage = () => {
     resolver: yupResolver(singUpSchema),
   });
 
-  const submit: SubmitHandler<iFormSingUp> = ({name, email, password}) => {
-    console.log({name, email, password});
+  const submit: SubmitHandler<iFormSingUp> = ({ name, email, password }) => {
+    console.log({ name, email, password });
     reset();
   };
 
@@ -52,7 +52,7 @@ const SingUpPage = () => {
         left={['75vw', '87vw', '3rem', '3rem']}
         bg='secondary'
         _hover={{
-          bg:'secondaryHover'
+          bg: 'secondaryHover',
         }}
         w={['60px', '60px', '80px', '80px']}
         h={['50px', '50px', '70px', '70px']}

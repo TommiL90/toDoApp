@@ -7,7 +7,7 @@ const Dashboard = () => {
   return (
     <Box>
       <Header />
-      <SearchBox/>
+      <SearchBox />
       <Grid
         w='100%'
         maxW={1280}
@@ -16,9 +16,9 @@ const Dashboard = () => {
         gap='1rem'
         p='4'
       >
-        {
-          [1,2,3,4,5,6,7,8].map((n) => (<Card key={n}/>)) 
-        }
+        {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+          <Card key={n} />
+        ))}
       </Grid>
     </Box>
   );

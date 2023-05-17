@@ -14,48 +14,25 @@ function Card() {
       boxShadow='base'
       p='8'
       w={['330px', 'auto']}
-
     >
-        <Flex
-            justify='space-between'
-        >
-        <Heading
-            as='h3'
-            fontSize='h3'
-        >
-            Title Test
+      <Flex justify='space-between'>
+        <Heading as='h3' fontSize='h3'>
+          Title Test
         </Heading>
         <HStack spacing='4'>
-           <Button
-                border='1px'
-                borderColor='gray200'
-                bgColor='gray100'
-           >
-                <FaTrash fontSize='1rem' color={theme.colors.gray300}/>
-            </Button> 
-            <Button
-                border='1px'
-                borderColor='gray200'
-                bgColor='gray100'
-           >
-                <FaCheck fontSize='1rem' color={theme.colors.gray300}/>
-            </Button> 
+          <Button border='1px' borderColor='gray200' bgColor='gray100'>
+            <FaTrash fontSize='1rem' color={theme.colors.gray300} />
+          </Button>
+          <Button border='1px' borderColor='gray200' bgColor='gray100'>
+            <FaCheck fontSize='1rem' color={theme.colors.gray300} />
+          </Button>
         </HStack>
-        </Flex>
-        <Flex 
-            flexDirection='column'
-            gap='1rem'
-        >
-            <Text>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            </Text>
-            <Progress colorScheme='purple' mt='1rem' value={15} />
-            <Text
-                color='gray.300'
-            >
-                21-02-2021
-            </Text>
-        </Flex>
+      </Flex>
+      <Flex flexDirection='column' gap='1rem'>
+        <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit.</Text>
+        <Progress colorScheme='purple' mt='1rem' value={15} />
+        <Text color='gray.300'>21-02-2021</Text>
+      </Flex>
     </Box>
   );
 }

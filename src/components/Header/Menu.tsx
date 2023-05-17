@@ -7,7 +7,7 @@ import {
   Button,
   Box,
   Heading,
-  Text
+  Text,
 } from '@chakra-ui/react';
 import { theme } from '../../styles/theme';
 import { FiLogOut } from 'react-icons/fi';
@@ -25,11 +25,7 @@ const Menu = ({ isOpen, onClose }: iMenuProps) => {
         <DrawerHeader borderBottomWidth='1px' color={theme.colors.gray300}>
           Basic Drawer
         </DrawerHeader>
-        <DrawerBody
-            display='flex'
-            alignItems='center'
-            gap='1rem'
-        >
+        <DrawerBody display='flex' alignItems='center' gap='1rem'>
           <Button
             bgColor={theme.colors.error}
             _hover={{
@@ -39,14 +35,12 @@ const Menu = ({ isOpen, onClose }: iMenuProps) => {
           >
             <FiLogOut color={theme.colors.gray100} width='60px' />
           </Button>
-          <Box
-            justifyContent='flex-start'
-          >
+          <Box justifyContent='flex-start'>
             <Heading as='h4' fontSize='h4'>
-            Sair da minha conta
+              Sair da minha conta
             </Heading>
             <Text fontSize='t3' color={theme.colors.gray300}>
-            Sair da minha conta agora
+              Sair da minha conta agora
             </Text>
           </Box>
         </DrawerBody>

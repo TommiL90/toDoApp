@@ -140,7 +140,6 @@ const LoginPage = () => {
                 >
                   Cadastre-se
                 </Button>
-                
               </VStack>
             </Box>
           </motion.div>

@@ -4,8 +4,7 @@ import { theme } from '../../styles/theme';
 import ModalCreateTask from '../Modal/ModalCreateTask';
 
 const SearchBox = () => {
-
-  const { isOpen, onClose, onOpen } = useDisclosure()
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   return (
     <Wrap
@@ -53,11 +52,7 @@ const SearchBox = () => {
       >
         Adicionar nova tarefa
       </Button>
-      <ModalCreateTask
-        isOpen={isOpen}
-        onClose={onClose
-        }
-      />
+      <ModalCreateTask isOpen={isOpen} onClose={onClose} />
     </Wrap>
   );
 };
