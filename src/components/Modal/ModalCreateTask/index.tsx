@@ -50,6 +50,7 @@ const ModalCreateTask = ({ isOpen, onClose }: iModalCreateTaskProps) => {
     if (token) {
       createTask(newData, token);
       reset();
+      onClose();
     }else{
       throw new Error('Token não encontrado')
     }

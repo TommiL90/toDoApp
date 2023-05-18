@@ -1,15 +1,38 @@
-import { Box, Button, Flex, Heading, HStack, Progress, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, HStack, Progress, Text } from '@chakra-ui/react';
 import { FaCheck, FaTrash } from 'react-icons/fa';
 import { theme } from '../../styles/theme';
+import { useContext } from 'react';
+import { iTask, TasksContext } from '../../contexts/TaskContexts';
 
 interface iTaskProps {
   id: string;
   title: string;
   description: string;
   completed: boolean;
+  onClick: (task: iTask)=> void;
 }
 
-function Card({ id, title, description, completed  }: iTaskProps) {
+function Card({ id, title, description, completed, onClick }: iTaskProps) {
+  const { deleteTask, updateTask } = useContext(TasksContext);
+  const token: string | null = localStorage.getItem('@to-do:Token');
+  const userId: string | null = localStorage.getItem('@to-do:UserId');
+
+  function handleDeleteTask() {
+    if(token) {
+      deleteTask(id, token);
+    }else{
+      throw new Error('Token not found');
+    }
+  }
+  
+  function handleUpdateTask() {
+    if(token && userId) {
+      updateTask(id, userId, token);
+    }else{
+      throw new Error('Token not found');
+    }
+  }
+
   return (
     <Box
       cursor='pointer'
@@ -27,15 +50,18 @@ function Card({ id, title, description, completed  }: iTaskProps) {
           {title}
         </Heading>
         <HStack spacing='4'>
-          <Button border='1px' borderColor='gray200' bgColor='gray100'>
+          <Button border='1px' borderColor='gray200' bgColor='gray100' onClick={handleDeleteTask}>
             <FaTrash fontSize='1rem' color={theme.colors.gray300} />
           </Button>
-          <Button border='1px' borderColor='gray200' bgColor='gray100'>
+          <Button border='1px' borderColor='gray200' bgColor='gray100' onClick={handleUpdateTask}>
             <FaCheck fontSize='1rem' color={theme.colors.gray300} />
           </Button>
         </HStack>
       </Flex>
-      <Flex flexDirection='column' gap='1rem'>
+      <Flex flexDirection='column' gap='1rem' onClick={()=> onClick({
+        id, title, description, completed,
+        userId: userId ? userId : '',
+      })}>
         <Text>{description}</Text>
         <Progress colorScheme='purple' mt='1rem' value={completed ? 100 : 25} />
         <Text color='gray.300'>21-02-2021</Text>
