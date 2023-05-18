@@ -1,54 +1,34 @@
 export interface iChildrenProps {
-    children: React.ReactNode;
-  }
-  
+  children: React.ReactNode;
+}
+
 export interface iDataLogin {
   email: string;
   password: string;
-}  
-  // export interface iUserProps{
-  //   email: string;
-  //   name: string;
-  //   id: number | string;
-  //   password?: string;
-  //   repeatPassword?: string;
-  // }
+}
+
+export interface iDataRegister {
+  name: string;
+  email: string;
+  password: string;
+}
+export interface iUserProps{
+  email: string;
+  name: string;
+  id: string;
+  password?: string;
+}
 
 export interface iAuthContext {
   loginUser: (data: iDataLogin) => Promise<void>;
   loading: boolean;
-
+  registerUser:(data: iDataRegister) => Promise<void>;
+  isModalSuccessOpen:  boolean;
+  onModalSuccessClose: () => void;
+  isModalErrorOpen: boolean;
+  onModalErrorClose: () => void;
+  user: iUserProps
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // ---->
 // export interface iOperationItem{

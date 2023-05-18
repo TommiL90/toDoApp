@@ -7,13 +7,7 @@ import {
   InputGroup,
   InputLeftElement,
 } from '@chakra-ui/react';
-import {
-  useState,
-  useEffect,
-  useCallback,
-  ForwardRefRenderFunction,
-  forwardRef,
-} from 'react';
+import { useState, useEffect, useCallback, ForwardRefRenderFunction, forwardRef } from 'react';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 import { IconType } from 'react-icons/lib';
 
@@ -38,7 +32,7 @@ const inputVariation: tVaration = {
 };
 
 const InputBase: ForwardRefRenderFunction<HTMLInputElement, iInput> = (
-  { name, label, icon: Icon, error = null,...rest },
+  { name, label, icon: Icon, error = null, ...rest },
   ref,
 ) => {
   const [variation, setVaration] = useState('default');
@@ -66,7 +60,11 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, iInput> = (
 
   return (
     <FormControl isInvalid={!!error}>
-      {label && <FormLabel color='gray300' fontSize='t2' fontWeight='400'>{label}</FormLabel>}
+      {label && (
+        <FormLabel color='gray300' fontSize='t2' fontWeight='400'>
+          {label}
+        </FormLabel>
+      )}
       <InputGroup flexDirection='column'>
         {Icon && (
           <InputLeftElement mt='2.5' color={inputVariation[variation]}>
@@ -77,7 +75,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, iInput> = (
           name={name}
           type={name}
           ref={ref}
-          onChangeCapture={e => setValue(e.currentTarget.value)}
+          onChangeCapture={(e) => setValue(e.currentTarget.value)}
           onFocus={handleInputFocus}
           onBlurCapture={handleInputBlur}
           color={inputVariation[variation]}

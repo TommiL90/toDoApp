@@ -9,6 +9,7 @@ import { signInSchema } from './schema';
 import logoPrimary from '../../assets/logoPrimary.svg';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import { theme } from '../../styles/theme';
 
 interface iFormLogin {
   email: string;
@@ -133,7 +134,7 @@ const LoginPage = () => {
                 <Button
                   w='100%'
                   color='gray400'
-                  bg='gray200'
+                  bg={theme.colors.gray200}
                   h='60px'
                   _hover={{ bg: 'gray300', color: 'primaryHover' }}
                 >

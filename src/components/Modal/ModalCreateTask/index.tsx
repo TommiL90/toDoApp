@@ -3,14 +3,9 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   Button,
-  FormControl,
-  FormLabel,
-  Input,
-  useDisclosure,
   Center,
   VStack,
 } from '@chakra-ui/react';
@@ -21,6 +16,9 @@ import { theme } from '../../../styles/theme';
 import { StyledInput } from '../../Input';
 import { StyledTextArea } from '../../TextArea';
 import { newTaskSchema } from './schema';
+import { useContext } from 'react';
+import { TasksContext } from '../../../contexts/TaskContexts';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 interface iModalCreateTaskProps {
   isOpen: boolean;
@@ -32,7 +30,11 @@ interface iNewTask {
   description: string;
 }
 
+
 const ModalCreateTask = ({ isOpen, onClose }: iModalCreateTaskProps) => {
+  const { createTask } = useContext(TasksContext)
+  const { user } = useContext(AuthContext)
+  const token: string | null = localStorage.getItem('@to-do:Token')
   const {
     register,
     handleSubmit,
@@ -42,10 +44,16 @@ const ModalCreateTask = ({ isOpen, onClose }: iModalCreateTaskProps) => {
     resolver: yupResolver(newTaskSchema),
   });
 
-
   const submit: SubmitHandler<iNewTask> = (data) => {
     console.log(data);
-    reset();
+    const newData = {...data, userId: user.id,  completed: false}
+    if (token) {
+      createTask(newData, token);
+      reset();
+      onClose();
+    }else{
+      throw new Error('Token não encontrado')
+    }
   };
 
   return (
@@ -70,11 +78,7 @@ const ModalCreateTask = ({ isOpen, onClose }: iModalCreateTaskProps) => {
               opacity: 0.8,
             }}
           />
-          <ModalBody 
-          as='form'
-          pb={6}
-          onSubmit={handleSubmit(submit)} 
-           >
+          <ModalBody as='form' pb={6} onSubmit={handleSubmit(submit)}>
             <VStack spacing='4'>
               <StyledInput
                 label='Título'
