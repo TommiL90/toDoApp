@@ -2,10 +2,29 @@ import { Button, Input, useDisclosure, Wrap } from '@chakra-ui/react';
 import { FaSearch } from 'react-icons/fa';
 import { theme } from '../../styles/theme';
 import ModalCreateTask from '../Modal/ModalCreateTask';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useContext } from 'react';
+import { TasksContext } from '../../contexts/TaskContexts';
 
+interface iSearchData {
+  title: string;
+}
 
-const SearchBox = () => {
+const SearchBox = (): JSX.Element => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const {searchtask} = useContext(TasksContext)
+  const token: string | null = localStorage.getItem('@to-do:Token')
+
+  const {register, handleSubmit} = useForm<iSearchData>()
+
+  const submit: SubmitHandler<iSearchData> = (data) => {
+    console.log(data)
+    if (token){
+      searchtask(data.title, token)
+    }else{
+      throw new Error('Token not found')
+    }
+  }
 
   return (
     <Wrap
@@ -19,6 +38,7 @@ const SearchBox = () => {
       h='max-content'
       borderBottom='1px'
       borderBottomColor={theme.colors.gray200}
+      onSubmit={handleSubmit(submit)}
     >
       <Input
         w='80%'
@@ -29,12 +49,14 @@ const SearchBox = () => {
           borderColor: 'primary',
         }}
         placeholder='Pesquisar por Tarefa ...'
+        {...register('title')}
       />
       <Button
         width='15%'
         maxW='65px'
         h='60px'
         bgColor='secondary'
+        type='submit'
         _hover={{
           bgColor: theme.colors.secondaryHover,
         }}
@@ -53,7 +75,7 @@ const SearchBox = () => {
       >
         Adicionar nova tarefa
       </Button>
-      <ModalCreateTask isOpen={isOpen} onClose={onClose}/>
+      <ModalCreateTask isOpen={isOpen} onClose={onClose} />
     </Wrap>
   );
 };

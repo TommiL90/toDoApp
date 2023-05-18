@@ -43,7 +43,7 @@ function Card({ id, title, description, completed, onClick }: iTaskProps) {
       transition='border 0.2s. ease 0.1s. transform 0.2s'
       boxShadow='base'
       p='8'
-      w={['330px', 'auto']}
+      w={['80vw', 'auto']}
     >
       <Flex justify='space-between'>
         <Heading as='h3' fontSize='h3'>

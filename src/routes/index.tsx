@@ -3,6 +3,7 @@ import Dashboard from '../pages/Dashboard';
 import LoginPage from '../pages/Loginpage';
 import SingUpPage from '../pages/SIngUpPage';
 import { TasksProvider } from '../contexts/TaskContexts';
+import NotFoundpage from '../pages/404Page';
 
 export const RoutesApp = () => (
   <Routes>
@@ -15,6 +16,7 @@ export const RoutesApp = () => (
           */}
     <Route path='/login' element={<LoginPage />} />
     <Route path='/register' element={<SingUpPage />} />
+    <Route element={<NotFoundpage />}/>
     <Route
       path='/home'
       element={
