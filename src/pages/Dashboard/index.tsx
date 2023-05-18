@@ -8,17 +8,17 @@ import { ModalTaskDetail } from '../../components/Modal/ModalTaskDetail';
 
 const Dashboard = () => {
   const { tasks } = useContext(TasksContext);
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedTask, setSelectedTask] = useState<iTask>({} as iTask);
 
   const handleOpenModal = (task: iTask) => {
     setSelectedTask(task);
     onOpen();
-  }
+  };
 
   return (
     <>
-    <ModalTaskDetail isOpen={isOpen} onClose={onClose} task={selectedTask} />
+      <ModalTaskDetail isOpen={isOpen} onClose={onClose} task={selectedTask} />
       <Box>
         <Header />
         <SearchBox />

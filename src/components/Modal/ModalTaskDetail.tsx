@@ -31,7 +31,7 @@ export const ModalTaskDetail = ({ isOpen, onClose, task }: ModalTaskDetailProps)
 
   function handleDeleteTask() {
     if(token) {
-      deleteTask(id, token);
+      deleteTask(task.id, token);
     }else{
       throw new Error('Token not found');
     }
@@ -39,7 +39,7 @@ export const ModalTaskDetail = ({ isOpen, onClose, task }: ModalTaskDetailProps)
   
   function handleUpdateTask() {
     if(token && userId) {
-      updateTask(id, userId, token);
+      updateTask(task.id, userId, token);
     }else{
       throw new Error('Token not found');
     }
