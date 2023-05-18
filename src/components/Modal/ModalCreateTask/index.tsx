@@ -16,6 +16,9 @@ import { theme } from '../../../styles/theme';
 import { StyledInput } from '../../Input';
 import { StyledTextArea } from '../../TextArea';
 import { newTaskSchema } from './schema';
+import { useContext } from 'react';
+import { TasksContext } from '../../../contexts/TaskContexts';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 interface iModalCreateTaskProps {
   isOpen: boolean;
@@ -27,7 +30,11 @@ interface iNewTask {
   description: string;
 }
 
+
 const ModalCreateTask = ({ isOpen, onClose }: iModalCreateTaskProps) => {
+  const { createTask } = useContext(TasksContext)
+  const { user } = useContext(AuthContext)
+  const token: string | null = localStorage.getItem('@to-do:Token')
   const {
     register,
     handleSubmit,
@@ -39,7 +46,13 @@ const ModalCreateTask = ({ isOpen, onClose }: iModalCreateTaskProps) => {
 
   const submit: SubmitHandler<iNewTask> = (data) => {
     console.log(data);
-    reset();
+    const newData = {...data, userId: user.id,  completed: false}
+    if (token) {
+      createTask(newData, token);
+      reset();
+    }else{
+      throw new Error('Token não encontrado')
+    }
   };
 
   return (

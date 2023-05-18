@@ -1,7 +1,8 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Dashboard from '../pages/Dashboard';
 import LoginPage from '../pages/Loginpage';
 import SingUpPage from '../pages/SIngUpPage';
+import { TasksProvider } from '../contexts/TaskContexts';
 
 export const RoutesApp = () => (
   <Routes>
@@ -14,6 +15,13 @@ export const RoutesApp = () => (
           */}
     <Route path='/login' element={<LoginPage />} />
     <Route path='/register' element={<SingUpPage />} />
-    <Route path='/home' element={<Dashboard />} />
+    <Route
+      path='/home'
+      element={
+        <TasksProvider>
+          <Dashboard />
+        </TasksProvider>
+      }
+    />
   </Routes>
 );

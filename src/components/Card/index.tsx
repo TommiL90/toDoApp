@@ -2,7 +2,14 @@ import { Box, Button, Flex, Heading, HStack, Progress, Text, VStack } from '@cha
 import { FaCheck, FaTrash } from 'react-icons/fa';
 import { theme } from '../../styles/theme';
 
-function Card() {
+interface iTaskProps {
+  id: string;
+  title: string;
+  description: string;
+  completed: boolean;
+}
+
+function Card({ id, title, description, completed  }: iTaskProps) {
   return (
     <Box
       cursor='pointer'
@@ -17,7 +24,7 @@ function Card() {
     >
       <Flex justify='space-between'>
         <Heading as='h3' fontSize='h3'>
-          Title Test
+          {title}
         </Heading>
         <HStack spacing='4'>
           <Button border='1px' borderColor='gray200' bgColor='gray100'>
@@ -29,8 +36,8 @@ function Card() {
         </HStack>
       </Flex>
       <Flex flexDirection='column' gap='1rem'>
-        <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit.</Text>
-        <Progress colorScheme='purple' mt='1rem' value={15} />
+        <Text>{description}</Text>
+        <Progress colorScheme='purple' mt='1rem' value={completed ? 100 : 25} />
         <Text color='gray.300'>21-02-2021</Text>
       </Flex>
     </Box>
