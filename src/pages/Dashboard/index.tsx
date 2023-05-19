@@ -12,7 +12,7 @@ import {
 import Card from '../../components/Card';
 import Header from '../../components/Header';
 import SearchBox from '../../components/SearchBox';
-import { Suspense, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { TasksContext, iTask } from '../../contexts/TaskContexts';
 import { ModalTaskDetail } from '../../components/Modal/ModalTaskDetail';
 import CardSkeleton from '../../components/Skeleton';

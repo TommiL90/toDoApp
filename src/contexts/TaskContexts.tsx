@@ -13,8 +13,8 @@ export interface iTask {
 export interface iTaskContext {
   tasks: iTask[];
   createTask: (data: Omit<iTask, 'id'>, accessToken: string) => Promise<void>;
-  deleteTask: (taskId: string, accessToken: string) => Promise<void>;
-  updateTask: (taskId: string, userId: string, accessToken: string) => Promise<void>;
+  deleteTask: (taskId: number, accessToken: string) => Promise<void>;
+  updateTask: (taskId: number, userId: number, accessToken: string) => Promise<void>;
   searchtask: (taskTitle: string, accessToken: string) => Promise<void>;
   notFound: boolean;
   taskNotFound: string;
