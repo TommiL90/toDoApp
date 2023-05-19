@@ -85,6 +85,7 @@ const SingUpPage = () => {
           }}
           w={['60px', '60px', '80px', '80px']}
           h={['50px', '50px', '70px', '70px']}
+          onClick={() => {navigate('/login')}}
         >
           <FaArrowLeft color={theme.colors.gray100} size='25' />
         </Button>

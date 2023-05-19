@@ -12,7 +12,7 @@ export interface iDataRegister {
   email: string;
   password: string;
 }
-export interface iUserProps{
+export interface iUserProps {
   email: string;
   name: string;
   id: string;
@@ -22,12 +22,13 @@ export interface iUserProps{
 export interface iAuthContext {
   loginUser: (data: iDataLogin) => Promise<void>;
   loading: boolean;
-  registerUser:(data: iDataRegister) => Promise<void>;
-  isModalSuccessOpen:  boolean;
+  registerUser: (data: iDataRegister) => Promise<void>;
+  isModalSuccessOpen: boolean;
   onModalSuccessClose: () => void;
   isModalErrorOpen: boolean;
   onModalErrorClose: () => void;
-  user: iUserProps
+  user: iUserProps;
+  isAuth: boolean;
 }
 
 // ---->

@@ -12,7 +12,7 @@ import {
 import Card from '../../components/Card';
 import Header from '../../components/Header';
 import SearchBox from '../../components/SearchBox';
-import { Suspense, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { TasksContext, iTask } from '../../contexts/TaskContexts';
 import { ModalTaskDetail } from '../../components/Modal/ModalTaskDetail';
 import CardSkeleton from '../../components/Skeleton';
@@ -34,7 +34,7 @@ const Dashboard = () => {
     onOpen();
   };
 
-  if (!notFound) {
+  if (notFound) {
     return (
       <>
         <ModalTaskDetail isOpen={isOpen} onClose={onClose} task={selectedTask} />
@@ -43,22 +43,22 @@ const Dashboard = () => {
           <SearchBox />
           <Center mt='4' textAlign='center' display='flex' flexDir='column'>
             <Heading>Não encontramos resultados para:</Heading>
-            <Text fontSize='xl' color='gray.300' fontWeight='bold'>
+            <Text fontSize='xl' color='gray.500' fontWeight='bold' mt='4'>
               {taskNotFound}
             </Text>
-            <Box mt='6' w={['80%', '40%']}>
-              <Stack>
+            <Box mt='8' w={['80%', '40%']}>
+              <Stack mb='4'>
                 <Skeleton
                   height='20px'
                   width='80%'
-                  startColor='gray.100'
+                  startColor='gray.200'
                   endColor='gray.300'
                   borderRadius='20px'
                 />
                 <Skeleton
                   height='20px'
                   width='60%'
-                  startColor='gray.100'
+                  startColor='gray.200'
                   endColor='gray.300'
                   borderRadius='20px'
                 />
@@ -109,7 +109,7 @@ const Dashboard = () => {
               <Center fontSize='5xl'>
                 <FaClipboardList color='#bdbdbd' />
               </Center>
-              <Heading as='h1' fontSize='2xl' mt='4' color='gray.300' fontWeight='bold'>
+              <Heading as='h1' fontSize='2xl' my='4' color='gray.400' fontWeight='bold'>
                 Vamos criar a sua primeira tarefa
               </Heading>
               <Text color='grey.400'>
@@ -141,18 +141,24 @@ const Dashboard = () => {
               gap='1rem'
               p='4'
             >
-              <Suspense fallback={<CardSkeleton repeatCount={9} />}>
-                {tasks.map((task) => (
-                  <Card
-                    key={task.id}
-                    id={task.id}
-                    title={task.title}
-                    description={task.description}
-                    completed={task.completed}
-                    onClick={handleOpenModal}
-                  />
-                ))}
-              </Suspense>
+              {loading ? (
+                <>
+                  <CardSkeleton repeatCount={9} />
+                </>
+              ) : (
+                <>
+                  {tasks.map((task) => (
+                    <Card
+                      key={task.id}
+                      id={task.id}
+                      title={task.title}
+                      description={task.description}
+                      completed={task.completed}
+                      onClick={handleOpenModal}
+                    />
+                  ))}
+                </>
+              )}
             </Grid>
           </>
         )}

@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { iTask, TasksContext } from '../../contexts/TaskContexts';
 
 interface iTaskProps {
-  id: string;
+  id: number;
   title: string;
   description: string;
   completed: boolean;
@@ -27,7 +27,7 @@ function Card({ id, title, description, completed, onClick }: iTaskProps) {
   
   function handleUpdateTask() {
     if(token && userId) {
-      updateTask(id, userId, token);
+      updateTask(id, Number(userId), token);
     }else{
       throw new Error('Token not found');
     }
@@ -60,7 +60,7 @@ function Card({ id, title, description, completed, onClick }: iTaskProps) {
       </Flex>
       <Flex flexDirection='column' gap='1rem' onClick={()=> onClick({
         id, title, description, completed,
-        userId: userId ? userId : '',
+        userId: userId ? Number(userId) : 0,
       })}>
         <Text>{description}</Text>
         <Progress colorScheme='purple' mt='1rem' value={completed ? 100 : 25} />

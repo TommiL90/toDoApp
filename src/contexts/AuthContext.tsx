@@ -1,4 +1,4 @@
-import { createContext, useCallback, useState } from 'react';
+import { createContext, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services';
 import { iChildrenProps, iDataLogin, iAuthContext, iDataRegister, iUserProps } from './types';
@@ -9,6 +9,7 @@ export const AuthContext = createContext({} as iAuthContext);
 export const AuthProvider = ({ children }: iChildrenProps) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [isAuth, setIsAuth] = useState(true);
   const [user, setUser] = useState({} as iUserProps);
   const {
     isOpen: isModalSuccessOpen,
@@ -21,18 +22,33 @@ export const AuthProvider = ({ children }: iChildrenProps) => {
     onClose: onModalErrorClose,
   } = useDisclosure();
 
+  useEffect(() => {
+    const token = localStorage.getItem('@to-do:Token')
+
+    if(!token) {
+      setIsAuth(false)
+      return
+    }
+
+    // api.defaults.headers.common.authorization = `Bearer ${token}`
+    setIsAuth(false)
+  }, [])
+
   const loginUser = useCallback(async (data: iDataLogin) => {
     try {
       setLoading(true);
 
-      const response = await api.post('/sessions', data);
-      const token = response.data.token;
+      const response = await api.post('/login', data);
+      const token = response.data.accessToken;
       const userId = response.data.user.id;
+
 
       setUser(response.data.user);
       localStorage.setItem('@to-do:Token', token);
       localStorage.setItem('@to-do:Id', userId);
+
       navigate('/home');
+
     } catch (error) {
       console.log(error);
     } finally {
@@ -64,7 +80,8 @@ export const AuthProvider = ({ children }: iChildrenProps) => {
         onModalSuccessClose,
         isModalErrorOpen,
         onModalErrorClose,
-        user
+        user,
+        isAuth
       }}
     >
       {children}

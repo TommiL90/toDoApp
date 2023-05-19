@@ -4,17 +4,17 @@ import { api } from '../services';
 import { AxiosResponse } from 'axios';
 
 export interface iTask {
-  id: string;
+  id: number;
   title: string;
   description: string;
-  userId: string;
+  userId: number;
   completed: boolean;
 }
 export interface iTaskContext {
   tasks: iTask[];
   createTask: (data: Omit<iTask, 'id'>, accessToken: string) => Promise<void>;
-  deleteTask: (taskId: string, accessToken: string) => Promise<void>;
-  updateTask: (taskId: string, userId: string, accessToken: string) => Promise<void>;
+  deleteTask: (taskId: number, accessToken: string) => Promise<void>;
+  updateTask: (taskId: number, userId: number, accessToken: string) => Promise<void>;
   searchtask: (taskTitle: string, accessToken: string) => Promise<void>;
   notFound: boolean;
   taskNotFound: string;
@@ -42,7 +42,7 @@ export const TasksProvider = ({ children }: iChildrenProps) => {
     }
   }, []);
 
-  const deleteTask = useCallback(async (taskId: string, accessToken: string) => {
+  const deleteTask = useCallback(async (taskId: number, accessToken: string) => {
     try {
       await api.delete(`/tasks/${taskId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
@@ -53,7 +53,7 @@ export const TasksProvider = ({ children }: iChildrenProps) => {
     }
   }, []);
 
-  const updateTask = useCallback(async (taskId: string, userId: string, accessToken: string) => {
+  const updateTask = useCallback(async (taskId: number, userId: number, accessToken: string) => {
     try {
       await api.patch(
         `/tasks/${taskId}`,
@@ -77,7 +77,7 @@ export const TasksProvider = ({ children }: iChildrenProps) => {
 
   const searchtask = useCallback(async (taskTitle: string, accessToken: string) => {
     try {
-      const response = await api.get(`/tasks?title_like=${taskTitle}`, {
+      const response = await api.get(`/tasks?userId=${userId}&title_like=${taskTitle}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       if (!response.data.length) {
