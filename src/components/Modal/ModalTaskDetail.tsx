@@ -40,7 +40,7 @@ export const ModalTaskDetail = ({ isOpen, onClose, task }: ModalTaskDetailProps)
 
   function handleCompleteTask() {
     if (token && userId) {
-      updateTask(task.id, userId, token);
+      updateTask(task.id, Number(userId), token);
       onClose();
     } else {
       throw new Error('Token not found');
