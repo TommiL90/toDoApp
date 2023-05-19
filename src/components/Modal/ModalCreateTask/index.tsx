@@ -18,7 +18,7 @@ import { StyledTextArea } from '../../TextArea';
 import { newTaskSchema } from './schema';
 import { useContext } from 'react';
 import { TasksContext } from '../../../contexts/TaskContexts';
-import { AuthContext } from '../../../contexts/AuthContext';
+
 
 interface iModalCreateTaskProps {
   isOpen: boolean;
@@ -33,7 +33,7 @@ interface iNewTask {
 
 const ModalCreateTask = ({ isOpen, onClose }: iModalCreateTaskProps) => {
   const { createTask } = useContext(TasksContext)
-  const { user } = useContext(AuthContext)
+  const userId: string | null = localStorage.getItem('@to-do:Id')
   const token: string | null = localStorage.getItem('@to-do:Token')
   const {
     register,
@@ -46,7 +46,7 @@ const ModalCreateTask = ({ isOpen, onClose }: iModalCreateTaskProps) => {
 
   const submit: SubmitHandler<iNewTask> = (data) => {
     console.log(data);
-    const newData = {...data, userId: user.id,  completed: false}
+    const newData = {...data, userId: Number(userId),  completed: false}
     if (token) {
       createTask(newData, token);
       reset();

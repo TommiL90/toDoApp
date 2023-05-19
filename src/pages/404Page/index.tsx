@@ -5,7 +5,7 @@ const NotFoundpage = () => {
   return (
     <>
     <Flex>
-      404  
+      404  Error
     </Flex>
     </>
   )

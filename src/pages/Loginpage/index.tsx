@@ -10,6 +10,7 @@ import logoPrimary from '../../assets/logoPrimary.svg';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { theme } from '../../styles/theme';
+import { useNavigate } from 'react-router-dom';
 
 interface iFormLogin {
   email: string;
@@ -18,7 +19,7 @@ interface iFormLogin {
 
 const LoginPage = () => {
   const { loading, loginUser } = useContext(AuthContext);
-
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -137,6 +138,7 @@ const LoginPage = () => {
                   bg={theme.colors.gray200}
                   h='60px'
                   _hover={{ bg: 'gray300', color: 'primaryHover' }}
+                  onClick={() => {navigate('/register')}}
                 >
                   Cadastre-se
                 </Button>
