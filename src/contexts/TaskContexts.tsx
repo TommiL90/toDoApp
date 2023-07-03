@@ -4,17 +4,17 @@ import { api } from '../services';
 import { AxiosResponse } from 'axios';
 
 export interface iTask {
-  id: number;
+  id: string;
   title: string;
   description: string;
-  userId: number;
+  userId: string;
   completed: boolean;
 }
 export interface iTaskContext {
   tasks: iTask[];
-  createTask: (data: Omit<iTask, 'id'>, accessToken: string) => Promise<void>;
-  deleteTask: (taskId: number, accessToken: string) => Promise<void>;
-  updateTask: (taskId: number, userId: number, accessToken: string) => Promise<void>;
+  createTask: (data: Omit<iTask, 'id'>) => Promise<void>;
+  deleteTask: (taskId: string, accessToken: string) => Promise<void>;
+  updateTask: (taskId: string, userId: string, accessToken: string) => Promise<void>;
   searchtask: (taskTitle: string, accessToken: string) => Promise<void>;
   notFound: boolean;
   taskNotFound: string;
@@ -31,18 +31,19 @@ export const TasksProvider = ({ children }: iChildrenProps) => {
   const [taskNotFound, setTaskNotFound] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const createTask = useCallback(async (data: Omit<iTask, 'id'>, accessToken: string) => {
+  const createTask = useCallback(async (data: Omit<iTask, 'id'>) => {
+    setLoading(true);
     try {
-      const response: AxiosResponse<iTask> = await api.post('/tasks', data, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
+      const response: AxiosResponse<iTask> = await api.post('/tasks', data);
       setTasks((prevState) => [...prevState, response.data]);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
-  const deleteTask = useCallback(async (taskId: number, accessToken: string) => {
+  const deleteTask = useCallback(async (taskId: string, accessToken: string) => {
     try {
       await api.delete(`/tasks/${taskId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
@@ -53,7 +54,7 @@ export const TasksProvider = ({ children }: iChildrenProps) => {
     }
   }, []);
 
-  const updateTask = useCallback(async (taskId: number, userId: number, accessToken: string) => {
+  const updateTask = useCallback(async (taskId: string, userId: string, accessToken: string) => {
     try {
       await api.patch(
         `/tasks/${taskId}`,

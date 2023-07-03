@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { iTask, TasksContext } from '../../contexts/TaskContexts';
 
 interface iTaskProps {
-  id: number;
+  Id: string;
   title: string;
   description: string;
   completed: boolean;

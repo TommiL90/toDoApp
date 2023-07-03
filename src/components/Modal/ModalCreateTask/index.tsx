@@ -8,6 +8,7 @@ import {
   Button,
   Center,
   VStack,
+  useToast,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -16,7 +17,7 @@ import { theme } from '../../../styles/theme';
 import { StyledInput } from '../../Input';
 import { StyledTextArea } from '../../TextArea';
 import { newTaskSchema } from './schema';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { TasksContext } from '../../../contexts/TaskContexts';
 
 interface iModalCreateTaskProps {
@@ -31,25 +32,45 @@ interface iNewTask {
 
 const ModalCreateTask = ({ isOpen, onClose }: iModalCreateTaskProps) => {
   const { createTask } = useContext(TasksContext);
+  const [loading, setLoading] = useState(false);
   const userId: string | null = localStorage.getItem('@to-do:Id');
-  const token: string | null = localStorage.getItem('@to-do:Token');
+  const toast = useToast();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<iNewTask>({
     resolver: yupResolver(newTaskSchema),
   });
 
   const submit: SubmitHandler<iNewTask> = (data) => {
-    const newData = { ...data, userId: Number(userId), completed: false };
-    if (token) {
-      createTask(newData, token);
-      reset();
-      onClose();
+    setLoading(true);
+    if (userId) {
+      const newData = { ...data, userId: userId, completed: false };
+      console.log(newData);
+      try {
+        createTask(newData);
+        toast({
+          title: 'Tarefa criada.',
+          description: 'Sua Tarefa foi criada com sucesso!.',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+          position: 'top',
+          containerStyle:{
+            background: theme,
+            color: theme.colors.sucess
+          }
+        });
+        onClose()
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
     } else {
-      throw new Error('Token não encontrado');
+      throw new Error('userId não encontrado');
     }
   };
 
@@ -91,7 +112,7 @@ const ModalCreateTask = ({ isOpen, onClose }: iModalCreateTaskProps) => {
                 error={errors.description}
               />
               <Button
-                isLoading={false}
+                isLoading={loading}
                 type='submit'
                 w='100%'
                 color='gray100'
