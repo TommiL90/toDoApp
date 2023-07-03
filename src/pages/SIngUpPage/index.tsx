@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { SubmitHandler } from 'react-hook-form/dist/types/form';
-import { FaArrowLeft, FaEnvelope, FaForward, FaLock, FaUserAlt } from 'react-icons/fa';
+import { FaArrowLeft, FaEnvelope, FaForward, FaLock, FaUserAlt, FaRegCopy } from 'react-icons/fa';
 import { StyledInput } from '../../components/Input';
 import { singUpSchema } from './schema';
 import logoPrimary from '../../assets/logoPrimary.svg';
@@ -85,7 +85,9 @@ const SingUpPage = () => {
           }}
           w={['60px', '60px', '80px', '80px']}
           h={['50px', '50px', '70px', '70px']}
-          onClick={() => {navigate('/login')}}
+          onClick={() => {
+            navigate('/login');
+          }}
         >
           <FaArrowLeft color={theme.colors.gray100} size='25' />
         </Button>
@@ -128,7 +130,7 @@ const SingUpPage = () => {
                   </Flex>
                   <Flex>
                     <Center borderRadius='5px' bg='white' w='50px' h='50px'>
-                      <FaForward color={theme.colors.primary} size='25' />
+                      <FaRegCopy color={theme.colors.primary} size='25' />
                     </Center>
                     <Box ml='4'>
                       <Heading as='h4' fontSize='h4'>
@@ -165,14 +167,14 @@ const SingUpPage = () => {
                   <StyledInput
                     label='Nome'
                     icon={FaUserAlt}
-                    placeholder='Digite sua senha'
+                    placeholder='Digite seu Nome'
                     {...register('name')}
                     error={errors.name}
                   />
                   <StyledInput
                     label='Email'
                     icon={FaEnvelope}
-                    placeholder='Digite sua senha'
+                    placeholder='Digite seu email' 
                     {...register('email')}
                     error={errors.email}
                   />

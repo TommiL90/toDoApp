@@ -12,19 +12,18 @@ interface iSearchData {
 
 const SearchBox = (): JSX.Element => {
   const { isOpen, onClose, onOpen } = useDisclosure();
-  const {searchtask} = useContext(TasksContext)
-  const token: string | null = localStorage.getItem('@to-do:Token')
+  const { searchtask } = useContext(TasksContext);
+  const token: string | null = localStorage.getItem('@to-do:Token');
 
-  const {register, handleSubmit} = useForm<iSearchData>()
+  const { register, handleSubmit } = useForm<iSearchData>();
 
   const submit: SubmitHandler<iSearchData> = (data) => {
-    console.log(data)
-    if (token){
-      searchtask(data.title, token)
-    }else{
-      throw new Error('Token not found')
+    if (token) {
+      searchtask(data.title, token);
+    } else {
+      throw new Error('Token not found');
     }
-  }
+  };
 
   return (
     <Wrap

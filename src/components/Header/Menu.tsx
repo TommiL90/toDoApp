@@ -11,6 +11,9 @@ import {
 } from '@chakra-ui/react';
 import { theme } from '../../styles/theme';
 import { FiLogOut } from 'react-icons/fi';
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface iMenuProps {
   isOpen: boolean;
@@ -18,12 +21,21 @@ interface iMenuProps {
 }
 
 const Menu = ({ isOpen, onClose }: iMenuProps) => {
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('@Auth:token');
+    localStorage.removeItem('@Auth:user');
+    navigate('/login');
+  }
+
   return (
     <Drawer placement='top' onClose={onClose} isOpen={isOpen}>
       <DrawerOverlay mt='80px' />
       <DrawerContent mr='2em' ml='auto' mt='55px' w={['450px', '360px']}>
         <DrawerHeader borderBottomWidth='1px' color={theme.colors.gray300}>
-          Basic Drawer
+          {user.name}
         </DrawerHeader>
         <DrawerBody display='flex' alignItems='center' gap='1rem'>
           <Button
@@ -32,6 +44,7 @@ const Menu = ({ isOpen, onClose }: iMenuProps) => {
               opacity: '0.8',
               cursor: 'pointer',
             }}
+            onClick={handleLogout}
           >
             <FiLogOut color={theme.colors.gray100} width='60px' />
           </Button>

@@ -30,13 +30,12 @@ export const ModalError = ({ isOpen, onClose, error }: ModalErrorProps) => (
         <Text fontWeight='bold' ml='2'>
           Oopss!!!
         </Text>
-        <Center as='button' ml='auto' w='32px' h='32px' onClick={onClose} fontSize='20px' bg='red.600'>
-            <FaTimes color={theme.colors.white}/>
-        </Center>
       </ModalHeader>
       <ModalCloseButton bg='red.600' color='white' _hover={{ bg: 'red.700' }} />
       <ModalBody textAlign='center'>
-        <Text>Ocurreo algum erro!!! <strong>{error}</strong> </Text>
+        <Text>
+          Ocorreu algum erro!!! <strong>{error}</strong>{' '}
+        </Text>
       </ModalBody>
       <ModalFooter color='gray.400' display='column'>
         <Button
@@ -50,7 +49,8 @@ export const ModalError = ({ isOpen, onClose, error }: ModalErrorProps) => (
           Tentar novamente
         </Button>
         <Text mt='4' textAlign='center'>
-          Você já pode tentar novamente , <strong>clicando</strong> no botão acima ou aguarde alguns minutos ...
+          Você já pode tentar novamente , <strong>clicando</strong> no botão acima ou aguarde alguns
+          minutos ...
         </Text>
       </ModalFooter>
     </ModalContent>

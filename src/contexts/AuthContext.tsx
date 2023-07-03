@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../services';
 import { iChildrenProps, iDataLogin, iAuthContext, iDataRegister, iUserProps } from './types';
 import { useDisclosure } from '@chakra-ui/react';
+import jwtDecode from 'jwt-decode';
 
 export const AuthContext = createContext({} as iAuthContext);
 
@@ -11,6 +12,7 @@ export const AuthProvider = ({ children }: iChildrenProps) => {
   const [loading, setLoading] = useState(false);
   const [isAuth, setIsAuth] = useState(true);
   const [user, setUser] = useState({} as iUserProps);
+
   const {
     isOpen: isModalSuccessOpen,
     onOpen: onModalSuccesOpen,
@@ -22,33 +24,47 @@ export const AuthProvider = ({ children }: iChildrenProps) => {
     onClose: onModalErrorClose,
   } = useDisclosure();
 
-  useEffect(() => {
-    const token = localStorage.getItem('@to-do:Token')
+  useEffect( () => {
+    const token = localStorage.getItem('@to-do:Token');
+    const userId = localStorage.getItem('@to-do:Id');
 
-    if(!token) {
-      setIsAuth(false)
-      return
+    if (!token) {
+      setIsAuth(false);
+      return;
     }
 
-    // api.defaults.headers.common.authorization = `Bearer ${token}`
-    setIsAuth(false)
-  }, [])
+    api.defaults.headers.common.authorization = `Bearer ${token}`;
+
+    const retrieveUser = async () => {
+      try {
+        const res = await api.get<iUserProps>(`/users/${userId}`);
+        setUser(res.data);
+      } catch (error) {
+        console.log(error);
+        navigate('/login');
+      }
+    }
+    retrieveUser()
+
+    setIsAuth(false);
+  }, []);
 
   const loginUser = useCallback(async (data: iDataLogin) => {
     try {
       setLoading(true);
 
       const response = await api.post('/login', data);
-      const token = response.data.accessToken;
-      const userId = response.data.user.id;
+      console.log(response.data);
+      const { sub } = jwtDecode(response.data.token) as { sub: string };
+      console.log(sub);
+      const token: string = response.data.token;
+      const userId: string = sub;
 
-
-      setUser(response.data.user);
+      api.defaults.headers.common.authorization = `Bearer ${token}`;
       localStorage.setItem('@to-do:Token', token);
       localStorage.setItem('@to-do:Id', userId);
 
       navigate('/home');
-
     } catch (error) {
       console.log(error);
     } finally {
@@ -60,12 +76,12 @@ export const AuthProvider = ({ children }: iChildrenProps) => {
     try {
       setLoading(true);
 
-      await api.post('/register', data);
+      await api.post('/users', data);
       onModalSuccesOpen();
     } catch (error) {
       console.log(error);
       onModalErrorOpen();
-    }finally{
+    } finally {
       setLoading(false);
     }
   }, []);
@@ -80,8 +96,8 @@ export const AuthProvider = ({ children }: iChildrenProps) => {
         onModalSuccessClose,
         isModalErrorOpen,
         onModalErrorClose,
+        isAuth,
         user,
-        isAuth
       }}
     >
       {children}

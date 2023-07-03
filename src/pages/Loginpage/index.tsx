@@ -19,7 +19,7 @@ interface iFormLogin {
 
 const LoginPage = () => {
   const { loading, loginUser } = useContext(AuthContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -138,7 +138,9 @@ const LoginPage = () => {
                   bg={theme.colors.gray200}
                   h='60px'
                   _hover={{ bg: 'gray300', color: 'primaryHover' }}
-                  onClick={() => {navigate('/register')}}
+                  onClick={() => {
+                    navigate('/register');
+                  }}
                 >
                   Cadastre-se
                 </Button>

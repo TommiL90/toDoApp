@@ -103,8 +103,10 @@ export const ModalTaskDetail = ({ isOpen, onClose, task }: ModalTaskDetailProps)
           <Text color='gray.400'>{task.description}</Text>
         </ModalBody>
         <Box p='6'>
-            <Progress colorScheme='purple' value={task.completed? 100 : 25} />
-            <Text color='green.200' mt='3'>07 March 2023</Text>
+          <Progress colorScheme='purple' value={task.completed ? 100 : 25} />
+          <Text color='green.200' mt='3'>
+            07 March 2023
+          </Text>
         </Box>
         <ModalFooter flexDirection='column'></ModalFooter>
       </ModalContent>

@@ -27,8 +27,8 @@ export interface iAuthContext {
   onModalSuccessClose: () => void;
   isModalErrorOpen: boolean;
   onModalErrorClose: () => void;
-  user: iUserProps;
   isAuth: boolean;
+  user: iUserProps 
 }
 
 // ---->

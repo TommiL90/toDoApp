@@ -9,7 +9,7 @@ interface iTaskProps {
   title: string;
   description: string;
   completed: boolean;
-  onClick: (task: iTask)=> void;
+  onClick: (task: iTask) => void;
 }
 
 function Card({ id, title, description, completed, onClick }: iTaskProps) {
@@ -18,17 +18,17 @@ function Card({ id, title, description, completed, onClick }: iTaskProps) {
   const userId: string | null = localStorage.getItem('@to-do:UserId');
 
   function handleDeleteTask() {
-    if(token) {
+    if (token) {
       deleteTask(id, token);
-    }else{
+    } else {
       throw new Error('Token not found');
     }
   }
-  
+
   function handleUpdateTask() {
-    if(token && userId) {
+    if (token && userId) {
       updateTask(id, Number(userId), token);
-    }else{
+    } else {
       throw new Error('Token not found');
     }
   }
@@ -58,10 +58,19 @@ function Card({ id, title, description, completed, onClick }: iTaskProps) {
           </Button>
         </HStack>
       </Flex>
-      <Flex flexDirection='column' gap='1rem' onClick={()=> onClick({
-        id, title, description, completed,
-        userId: userId ? Number(userId) : 0,
-      })}>
+      <Flex
+        flexDirection='column'
+        gap='1rem'
+        onClick={() =>
+          onClick({
+            id,
+            title,
+            description,
+            completed,
+            userId: userId ? Number(userId) : 0,
+          })
+        }
+      >
         <Text>{description}</Text>
         <Progress colorScheme='purple' mt='1rem' value={completed ? 100 : 25} />
         <Text color='gray.300'>21-02-2021</Text>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: 'https://fake-api-todo.onrender.com',
-  timeout: 10000,
+  baseURL: 'https://nestjsapi.onrender.com',
+  timeout: 15000,
 });

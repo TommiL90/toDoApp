@@ -73,7 +73,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, iInput> = (
         )}
         <Input
           name={name}
-          type={name}
+          type={name === 'repeatPassword' ? 'password' : name}
           ref={ref}
           onChangeCapture={(e) => setValue(e.currentTarget.value)}
           onFocus={handleInputFocus}
