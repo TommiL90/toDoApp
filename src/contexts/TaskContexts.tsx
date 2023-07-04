@@ -8,14 +8,16 @@ export interface iTask {
   title: string;
   description: string;
   userId: string;
+  createdAt: Date;
+  updatedAt: Date;
   completed: boolean;
 }
 export interface iTaskContext {
   tasks: iTask[];
-  createTask: (data: Omit<iTask, 'id'>) => Promise<void>;
-  deleteTask: (taskId: string, accessToken: string) => Promise<void>;
-  updateTask: (taskId: string, userId: string, accessToken: string) => Promise<void>;
-  searchtask: (taskTitle: string, accessToken: string) => Promise<void>;
+  createTask: (data: Omit<iTask, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
+  deleteTask: (taskId: string) => Promise<void>;
+  updateTask: (taskId: string, completed: boolean) => Promise<void>;
+  searchtask: (taskTitle: string) => Promise<void>;
   notFound: boolean;
   taskNotFound: string;
   loading: boolean;
@@ -24,50 +26,39 @@ export interface iTaskContext {
 export const TasksContext = createContext({} as iTaskContext);
 
 export const TasksProvider = ({ children }: iChildrenProps) => {
-  const userId: string | null = localStorage.getItem('@to-do:Id');
-  const token: string | null = localStorage.getItem('@to-do:Token');
   const [tasks, setTasks] = useState([] as iTask[]);
   const [notFound, setNotFound] = useState(false);
   const [taskNotFound, setTaskNotFound] = useState('');
   const [loading, setLoading] = useState(false);
 
   const createTask = useCallback(async (data: Omit<iTask, 'id'>) => {
-    setLoading(true);
     try {
       const response: AxiosResponse<iTask> = await api.post('/tasks', data);
+
       setTasks((prevState) => [...prevState, response.data]);
     } catch (error) {
       console.log(error);
-    } finally {
-      setLoading(false);
     }
   }, []);
 
-  const deleteTask = useCallback(async (taskId: string, accessToken: string) => {
+  const deleteTask = useCallback(async (taskId: string) => {
     try {
-      await api.delete(`/tasks/${taskId}`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
+      await api.delete(`/tasks/${taskId}`);
       setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
     } catch (error) {
       console.log(error);
     }
   }, []);
 
-  const updateTask = useCallback(async (taskId: string, userId: string, accessToken: string) => {
+  const updateTask = useCallback(async (taskId: string, completed: boolean) => {
     try {
-      await api.patch(
-        `/tasks/${taskId}`,
-        { completed: true, userId: userId },
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        },
-      );
+      console.log(taskId);
+      await api.patch(`/tasks/${taskId}`, { completed: !completed });
       setTasks((prevTasks) => {
         const filteredTasks = prevTasks.filter((task) => task.id !== taskId);
         const updatedTask = prevTasks.find((task) => task.id === taskId);
         if (updatedTask) {
-          return [...filteredTasks, { ...updatedTask, completed: true }];
+          return [...filteredTasks, { ...updatedTask, completed: !completed }];
         }
         return filteredTasks;
       });
@@ -76,11 +67,9 @@ export const TasksProvider = ({ children }: iChildrenProps) => {
     }
   }, []);
 
-  const searchtask = useCallback(async (taskTitle: string, accessToken: string) => {
+  const searchtask = useCallback(async (taskTitle: string) => {
     try {
-      const response = await api.get(`/tasks?userId=${userId}&title_like=${taskTitle}`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
+      const response = await api.get(`/tasks?keywords=${taskTitle}`);
       if (!response.data.length) {
         setTaskNotFound(taskTitle);
         return setNotFound(true);
@@ -96,9 +85,8 @@ export const TasksProvider = ({ children }: iChildrenProps) => {
     const loadTasks = async () => {
       try {
         setLoading(true);
-        const response = await api.get(`/tasks?userId=${userId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await api.get('/tasks');
+
         setTasks(response.data);
       } catch (error) {
         console.log(error);

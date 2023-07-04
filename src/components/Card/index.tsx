@@ -5,29 +5,33 @@ import { useContext } from 'react';
 import { iTask, TasksContext } from '../../contexts/TaskContexts';
 
 interface iTaskProps {
-  Id: string;
+  id: string;
   title: string;
   description: string;
   completed: boolean;
+  createdAt: Date;
+  updatedAt: Date;
   onClick: (task: iTask) => void;
 }
 
-function Card({ id, title, description, completed, onClick }: iTaskProps) {
+function Card({ id, title, description, completed, createdAt, updatedAt, onClick }: iTaskProps) {
   const { deleteTask, updateTask } = useContext(TasksContext);
   const token: string | null = localStorage.getItem('@to-do:Token');
   const userId: string | null = localStorage.getItem('@to-do:UserId');
+  const createdAtDate = new Date(createdAt);
+  const updatedAtDate = new Date(updatedAt);
 
   function handleDeleteTask() {
     if (token) {
-      deleteTask(id, token);
+      deleteTask(id);
     } else {
       throw new Error('Token not found');
     }
   }
 
   function handleUpdateTask() {
-    if (token && userId) {
-      updateTask(id, Number(userId), token);
+    if (token) {
+      updateTask(id, completed);
     } else {
       throw new Error('Token not found');
     }
@@ -53,8 +57,16 @@ function Card({ id, title, description, completed, onClick }: iTaskProps) {
           <Button border='1px' borderColor='gray200' bgColor='gray100' onClick={handleDeleteTask}>
             <FaTrash fontSize='1rem' color={theme.colors.gray300} />
           </Button>
-          <Button border='1px' borderColor='gray200' bgColor='gray100' onClick={handleUpdateTask}>
-            <FaCheck fontSize='1rem' color={theme.colors.gray300} />
+          <Button
+            border='1px'
+            borderColor='gray200'
+            bgColor={completed ? 'purple.500' : 'gray100'}
+            onClick={handleUpdateTask}
+          >
+            <FaCheck
+              fontSize='1rem'
+              color={completed ? theme.colors.gray100 : theme.colors.gray300}
+            />
           </Button>
         </HStack>
       </Flex>
@@ -67,13 +79,19 @@ function Card({ id, title, description, completed, onClick }: iTaskProps) {
             title,
             description,
             completed,
-            userId: userId ? Number(userId) : 0,
+            createdAt,
+            updatedAt,
+            userId: userId ? userId : '',
           })
         }
       >
         <Text>{description}</Text>
         <Progress colorScheme='purple' mt='1rem' value={completed ? 100 : 25} />
-        <Text color='gray.300'>21-02-2021</Text>
+        <Text color='gray.300'>
+          {completed === false
+            ? `Criado em ${createdAtDate.toLocaleDateString()}`
+            : `Completado em ${updatedAtDate.toLocaleDateString()}`}
+        </Text>
       </Flex>
     </Box>
   );

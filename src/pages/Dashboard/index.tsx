@@ -154,6 +154,8 @@ const Dashboard = () => {
                       title={task.title}
                       description={task.description}
                       completed={task.completed}
+                      createdAt={task.createdAt}
+                      updatedAt={task.updatedAt}
                       onClick={handleOpenModal}
                     />
                   ))}

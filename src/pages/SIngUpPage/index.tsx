@@ -41,7 +41,6 @@ const SingUpPage = () => {
   });
 
   const submit: SubmitHandler<iFormSingUp> = ({ name, email, password }) => {
-    console.log({ name, email, password });
     registerUser({ name, email, password });
     reset();
   };

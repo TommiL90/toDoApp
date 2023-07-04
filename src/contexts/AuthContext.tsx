@@ -54,9 +54,8 @@ export const AuthProvider = ({ children }: iChildrenProps) => {
       setLoading(true);
 
       const response = await api.post('/login', data);
-      console.log(response.data);
       const { sub } = jwtDecode(response.data.token) as { sub: string };
-      console.log(sub);
+
       const token: string = response.data.token;
       const userId: string = sub;
 

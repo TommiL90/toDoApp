@@ -4,19 +4,17 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   Text,
   Center,
   Box,
-  HStack,
   Heading,
   Flex,
   Progress,
 } from '@chakra-ui/react';
-import { FaCheck, FaCube, FaTimes, FaTrash } from 'react-icons/fa';
+import { FaCube, FaTimes } from 'react-icons/fa';
 import { theme } from '../../styles/theme';
-import { TasksContext, iTask } from '../../contexts/TaskContexts';
-import { useContext } from 'react';
+import { iTask } from '../../contexts/TaskContexts';
+
 
 interface ModalTaskDetailProps {
   isOpen: boolean;
@@ -25,27 +23,9 @@ interface ModalTaskDetailProps {
 }
 
 export const ModalTaskDetail = ({ isOpen, onClose, task }: ModalTaskDetailProps) => {
-  const { updateTask, deleteTask } = useContext(TasksContext);
-  const token: string | null = localStorage.getItem('@to-do:Token');
-  const userId: string | null = localStorage.getItem('@to-do:UserId');
+  const createdAtDate = new Date(task.createdAt);
+  const updatedAtDate = new Date(task.updatedAt);
 
-  function handleDeleteTask() {
-    if (token) {
-      deleteTask(task.id, token);
-      onClose();
-    } else {
-      throw new Error('Token not found');
-    }
-  }
-
-  function handleCompleteTask() {
-    if (token && userId) {
-      updateTask(task.id, Number(userId), token);
-      onClose();
-    } else {
-      throw new Error('Token not found');
-    }
-  }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -60,43 +40,26 @@ export const ModalTaskDetail = ({ isOpen, onClose, task }: ModalTaskDetailProps)
               Visualizar
             </Text>
           </Flex>
-          <HStack spacing='2'>
-            <Center
-              as='button'
-              ml='auto'
-              w='32px'
-              h='32px'
-              onClick={handleDeleteTask}
-              fontSize='20px'
-              bg='red.600'
-            >
-              <FaTrash color={theme.colors.white} />
-            </Center>
-            <Center
-              as='button'
-              ml='auto'
-              w='32px'
-              h='32px'
-              onClick={handleCompleteTask}
-              fontSize='20px'
-              bg='red.600'
-            >
-              <FaCheck color={theme.colors.white} />
-            </Center>
-            <Center
-              as='button'
-              ml='auto'
-              w='32px'
-              h='32px'
-              onClick={onClose}
-              fontSize='20px'
-              bg='red.600'
-            >
-              <FaTimes color={theme.colors.white} />
-            </Center>
-          </HStack>
+          <Center
+            as='button'
+            ml='auto'
+            w='32px'
+            h='32px'
+            onClick={onClose}
+            fontSize='20px'
+            bg='red.600'
+          >
+            <FaTimes color={theme.colors.white} />
+          </Center>
         </ModalHeader>
-        <ModalBody textAlign='center'>
+        <ModalBody
+          textAlign='center'
+          display='flex'
+          justifyContent='center'
+          alignItems='center'
+          flexDirection='column'
+          gap='4'
+        >
           <Heading as='h2' size='2xl' fontWeight='bold'>
             {task.title}
           </Heading>
@@ -104,11 +67,12 @@ export const ModalTaskDetail = ({ isOpen, onClose, task }: ModalTaskDetailProps)
         </ModalBody>
         <Box p='6'>
           <Progress colorScheme='purple' value={task.completed ? 100 : 25} />
-          <Text color='green.200' mt='3'>
-            07 March 2023
+          <Text color='gray.300' mt='4'>
+            {task.completed === false
+              ? `Criado em ${createdAtDate.toLocaleDateString()}`
+              : `Completado em ${updatedAtDate.toLocaleDateString()}`}
           </Text>
         </Box>
-        <ModalFooter flexDirection='column'></ModalFooter>
       </ModalContent>
     </Modal>
   );

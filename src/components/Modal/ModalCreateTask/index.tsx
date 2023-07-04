@@ -26,6 +26,8 @@ interface iModalCreateTaskProps {
 }
 
 interface iNewTask {
+  userId: string;
+  completed: boolean;
   title: string;
   description: string;
 }
@@ -48,7 +50,6 @@ const ModalCreateTask = ({ isOpen, onClose }: iModalCreateTaskProps) => {
     setLoading(true);
     if (userId) {
       const newData = { ...data, userId: userId, completed: false };
-      console.log(newData);
       try {
         createTask(newData);
         toast({
