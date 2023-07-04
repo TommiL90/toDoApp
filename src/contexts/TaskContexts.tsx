@@ -31,7 +31,7 @@ export const TasksProvider = ({ children }: iChildrenProps) => {
   const [taskNotFound, setTaskNotFound] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const createTask = useCallback(async (data: Omit<iTask, 'id'>) => {
+  const createTask = useCallback(async (data: Omit<iTask, 'id' | 'createdAt' | 'updatedAt'>) => {
     try {
       const response: AxiosResponse<iTask> = await api.post('/tasks', data);
 
